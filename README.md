@@ -8,6 +8,12 @@ ex) D:\>git clone https://github.com/ajm445/blackteam.git
 ```
 git clone https://github.com/ajm445/blackteam.git
 ```
+```
+cd blackteam
+```
+```
+code .
+```
 
   #### 1-1. 깃허브 계정이 없을 경우 -> 소스 코드는 있음, 소스 코드를 복사하여 개인 vscode에서 작업
 
