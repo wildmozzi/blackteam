@@ -9,6 +9,6 @@ ex) D:\>git clone https://github.com/ajm445/blackteam.git
 git clone https://github.com/ajm445/blackteam.git
 ```
 
-1-1. 깃허브 계정이 없을 경우 -> 소스 코드는 있음, 소스 코드를 복사하여 개인 vscode에서 작업
+  1-1. 깃허브 계정이 없을 경우 -> 소스 코드는 있음, 소스 코드를 복사하여 개인 vscode에서 작업
 
 2. 깃허브 계정이 있을 경우 -> vscode와 github 연동 -> vscode 내에서 작업 가능
