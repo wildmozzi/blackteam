@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>메인페이지</title>
+    <title>커뮤니티</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
@@ -45,6 +45,16 @@
         .header h1 {
             font-size: 18px;
             font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .location-icon {
+            margin-left: 5px;
+            color: #666;
+        }
+
+        .notification-icon {
+            font-size: 20px;
             color: #2c3e50;
         }
 
@@ -175,7 +185,7 @@
         <header class="header">
             <button class="back-btn" onclick="goToHome()">←</button>
             <h1>게시판 - 000</h1>
-            <span class="icon">🔔</span>
+            <span class="notification-icon">🔔</span>
         </header>
         <div class="category-buttons">
             <button class="category-btn">전체</button>
@@ -185,7 +195,7 @@
         </div>
         <ul class="list">
             <li class="list-item ad-item" onclick="alert('광고를 클릭하셨습니다.')">광고: 특별 이벤트 진행 중!</li>
-            <li class="list-item" onclick="location.href='BoardContent.html'">게시글 1</li>
+            <li class="list-item" onclick="location.href='comment.html'">게시글 1</li>
             <li class="list-item">게시글 2</li>
             <li class="list-item">게시글 3</li>
             <li class="list-item">게시글 4</li>
@@ -203,14 +213,14 @@
                 <div class="nav-icon"><i class="fa-solid fa-comment"></i></div>
                 <span>채팅</span>
             </a>
-            <a href="gaesi1.html" class="nav-item nav-active">
+            <a href="commu.html" class="nav-item nav-active">
                 <div class="nav-icon"><i class="fa-solid fa-comments"></i></div>
                 <span>커뮤니티</span>
             </a>
-            <div class="nav-item">
+            <a href="mypage.html" class="nav-item">
                 <div class="nav-icon"><i class="fa-solid fa-user"></i></div>
                 <span>프로필</span>
-            </div>
+            </a>
     </div>
     <script>
         function goToHome() {
