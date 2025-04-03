@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>로그인</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        /* 기존 스타일 유지 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+        }
+        .login-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dfe6e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        input[type="email"]:focus, input[type="password"]:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+            outline: none;
+        }
+        .login-btn {
+            background: linear-gradient(135deg, #2c3e50, #4a6278);
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            margin: 12px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .login-btn:hover {
+            background: linear-gradient(135deg, #34495e, #5a738c);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        .links {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+        .links a {
+            color: #3498db;
+            text-decoration: none;
+            margin: 0 5px;
+            transition: color 0.3s ease;
+        }
+        .links a:hover {
+            color: #2980b9;
+        }
+        .divider {
+            margin: 20px 0;
+            font-size: 12px;
+            color: #7f8c8d;
+            position: relative;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background-color: #dfe6e9;
+        }
+        .divider::before {
+            left: 0;
+        }
+        .divider::after {
+            right: 0;
+        }
+        .google-btn {
+            background-color: #ffffff;
+            color: #4285f4;
+            padding: 10px;
+            border: 1px solid #4285f4;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .google-btn:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        .google-btn::before {
+            content: 'G';
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: #4285f4;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>로그인</h1>
+        <form onsubmit="return login(event)">
+            <div class="form-group">
+                <input type="email" id="email" placeholder="email@daejin.ac.kr" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" placeholder="비밀번호" required>
+            </div>
+            <button type="submit" class="login-btn">로그인</button>
+        </form>
+        <div class="links">
+            <a href="findidpw.html">ID/PW 찾기</a> | <a href="signup.html">회원가입</a>
+        </div>
+        <div class="divider">or continue with</div>
+        <button class="google-btn" onclick="handleGoogleSignUp()">구글로 계속하기</button>
+    </div>
+
+    <script>
+        // 기존 로그인 함수
+        function login(event) {
+            event.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            if (email && password) {
+                alert("로그인 시도: " + email);
+                window.location.href = "home.html";
+            } else {
+                alert("이메일과 비밀번호를 입력해주세요.");
+            }
+        }
+
+        // 구글 로그인 처리 함수
+        function handleGoogleSignUp() {
+            const clientId = "YOUR_GOOGLE_CLIENT_ID"; // Google Cloud Console에서 발급받은 클라이언트 ID로 교체
+            const redirectUri = "http://localhost:YOUR_PORT/login.html"; // 리디렉션 URI로 교체
+            const scope = "profile email"; // 요청할 권한 범위
+            const responseType = "token"; // 토큰 응답 유형
+
+            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
+
+            window.location.href = authUrl; // 구글 인증 페이지로 리디렉션
+        }
+
+        // URL에서 토큰 처리 (리디렉션 후)
+        window.onload = function() {
+            const hash = window.location.hash;
+            if (hash) {
+                const params = new URLSearchParams(hash.substring(1));
+                const accessToken = params.get("access_token");
+
+                if (accessToken) {
+                    // 토큰을 사용해 사용자 정보 가져오기
+                    fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log("구글 사용자 정보:", data);
+                            alert(`구글 로그인 성공! 환영합니다, ${data.name}`);
+                            window.location.href = "home.html"; // 로그인 성공 시 채팅 페이지로 이동
+                        })
+                        .catch(error => {
+                            console.error("사용자 정보 가져오기 실패:", error);
+                            alert("구글 로그인에 실패했습니다.");
+                        });
+                }
+            }
+        };
+    </script>
+</body>
+</html>

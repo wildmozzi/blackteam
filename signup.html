@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>회원가입</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+        }
+        .signin-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        p {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dfe6e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+            outline: none;
+        }
+        .phone-group {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+        .phone-group select {
+            padding: 10px;
+            border: 1px solid #dfe6e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        .phone-group select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        .phone-group input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #dfe6e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .phone-group input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+            outline: none;
+        }
+        .signup-btn {
+            background: linear-gradient(135deg, #2c3e50, #4a6278);
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            margin: 12px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .signup-btn:hover {
+            background: linear-gradient(135deg, #34495e, #5a738c);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        .divider {
+            margin: 15px 0;
+            font-size: 12px;
+            color: #7f8c8d;
+            position: relative;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background-color: #dfe6e9;
+        }
+        .divider::before {
+            left: 0;
+        }
+        .divider::after {
+            right: 0;
+        }
+        .login-btn {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+        .login-btn:hover {
+            background-color: #dfe6e9;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="signin-container">
+        <h1>회원가입</h1>
+        <p>아래 정보를 입력하여 회원가입을 완료하세요.</p>
+        <form onsubmit="return signup(event)">
+            <div class="form-group">
+                <input type="text" id="name" placeholder="이름" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" placeholder="email@daejin.ac.kr" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" placeholder="비밀번호" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="confirm-password" placeholder="비밀번호 확인" required>
+            </div>
+            <div class="form-group">
+                <div class="phone-group">
+                    <select id="phone-prefix">
+                        <option value="010">010</option>
+                        <option value="011">011</option>
+                        <option value="016">016</option>
+                    </select>
+                    <input type="text" id="phone1" maxlength="4" placeholder="1234" required>
+                    <input type="text" id="phone2" maxlength="4" placeholder="5678" required>
+                </div>
+            </div>
+            <button type="submit" class="signup-btn">회원가입</button>
+        </form>
+        <div class="divider">or</div>
+        <button class="login-btn" onclick="goToLogin()">로그인 페이지로 이동</button>
+    </div>
+
+    <script>
+        function signup(event) {
+            event.preventDefault();
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+            const phonePrefix = document.getElementById("phone-prefix").value;
+            const phone1 = document.getElementById("phone1").value;
+            const phone2 = document.getElementById("phone2").value;
+            const phone = `${phonePrefix}-${phone1}-${phone2}`;
+
+            if (password !== confirmPassword) {
+                alert("비밀번호가 일치하지 않습니다.");
+                return;
+            }
+
+            // 실제로는 서버 요청이 필요하지만, 여기서는 예시로 알림만 표시
+            alert(`회원가입 정보:\n이름: ${name}\n이메일: ${email}\n전화번호: ${phone}\n회원가입이 완료되었습니다!`);
+            window.location.href = "login.html";
+        }
+
+        function goToLogin() {
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>
