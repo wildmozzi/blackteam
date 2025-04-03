@@ -5,12 +5,15 @@
 #### 1. 깃허브에서 클론 다운받기 -> cmd를 키고 다운 받을 곳으로 경로를 지정 -> 아래 코드 입력
 
 ex) D:\>git clone https://github.com/ajm445/blackteam.git
+cmd
 ```
 git clone https://github.com/ajm445/blackteam.git
 ```
+cmd
 ```
 cd blackteam
 ```
+cmd
 ```
 code .
 ```
