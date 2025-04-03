@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>즐겨찾기 관리</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 상단 헤더 컨테이너 */
+        .header-container {
+            background-color: #ffffff; /* 흰색 배경 */
+            border-radius: 15px; /* login.html과 동일 */
+            width: 100%; /* login.html과 동일 */
+            max-width: 400px; /* login.html과 동일 */
+            padding: 10px 15px; /* 내부 패딩 */
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #2c3e50;
+            transition: color 0.3s ease;
+        }
+        .back-btn:hover {
+            color: #3498db;
+        }
+
+
+        .header .title {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700; /* login.html과 동일 */
+            color: #2c3e50; /* login.html 텍스트 색상 */
+        }
+
+        .header .empty-space {
+            width: 24px; /* 뒤로가기 버튼과 대칭을 맞추기 위한 빈 공간 */
+        }
+
+        /* 메인 콘텐츠 */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 25px; /* 비율 조정: 기존 30px에서 25px로 축소 */
+            background-color: #ffffff; /* login.html과 동일 */
+            border-radius: 15px; /* login.html과 동일 */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* login.html과 동일 */
+            width: 90%; /* login.html과 동일 */
+            max-width: 400px; /* login.html과 동일 */
+            margin: 15px auto; /* 비율 조정: 기존 20px에서 15px로 축소 */
+            gap: 0; /* 항목 간 간격 제거 */
+        }
+
+        /* 즐겨찾기 항목 리스트 */
+        .favorites-list {
+            width: 100%;
+            max-height: calc(100vh - 200px); /* 비율 조정: 기존 220px에서 200px로 축소 */
+            overflow-y: auto; /* 세로 스크롤 활성화 */
+            display: flex;
+            flex-direction: column;
+            gap: 0; /* 항목 간 간격 제거 */
+        }
+
+        /* 스크롤바 커스터마이징 */
+        .favorites-list::-webkit-scrollbar {
+            width: 6px; /* 기존 스타일 유지 */
+        }
+
+        .favorites-list::-webkit-scrollbar-track {
+            background: #dfe6e9; /* login.html 입력 필드 테두리 색상 */
+            border-radius: 10px; /* 기존 스타일 유지 */
+        }
+
+        .favorites-list::-webkit-scrollbar-thumb {
+            background: #2c3e50; /* login.html 버튼 색상 */
+            border-radius: 10px; /* 기존 스타일 유지 */
+        }
+
+        .favorites-list::-webkit-scrollbar-thumb:hover {
+            background: #34495e; /* login.html 버튼 호버 색상 */
+        }
+
+        .favorite-item {
+            padding: 16px 12px; /* 비율 조정: 기존 20px 15px에서 축소 */
+            background-color: #f8f9fa; /* login.html 구글 버튼 호버 색상 참고 */
+            border: 1px solid #dfe6e9; /* login.html 입력 필드 테두리 */
+            border-bottom: none; /* 연속된 항목 간 구분을 위해 하단 테두리 제거 */
+            display: flex; /* 아이콘과 텍스트를 가로로 배치 */
+            justify-content: space-between; /* 왼쪽과 오른쪽 정렬 */
+            align-items: center; /* 세로 가운데 정렬 */
+        }
+
+        /* 첫 번째 항목 스타일 */
+        .favorite-item:first-child {
+            border-top: 1px solid #dfe6e9; /* 첫 번째 항목에 상단 테두리 추가 */
+            border-radius: 8px 8px 0 0; /* 상단 모서리 둥글게 */
+        }
+
+        /* 마지막 항목 스타일 */
+        .favorite-item:last-child {
+            border-bottom: 1px solid #dfe6e9; /* 마지막 항목에 하단 테두리 추가 */
+            border-radius: 0 0 8px 8px; /* 하단 모서리 둥글게 */
+        }
+
+        .favorite-item .location {
+            display: flex;
+            align-items: center; /* 아이콘과 텍스트 세로 가운데 정렬 */
+            gap: 6px; /* 비율 조정: 기존 8px에서 축소 */
+        }
+
+        .favorite-item .location-details {
+            display: flex;
+            flex-direction: column; /* 세로로 배치 */
+            gap: 1px; /* 비율 조정: 기존 2px에서 축소 */
+        }
+
+        .favorite-item .location-details .district {
+            font-size: 14px; /* 비율 조정: 기존 16px에서 축소 */
+            color: #2c3e50; /* login.html 텍스트 색상 */
+        }
+
+        .favorite-item .location-details .city {
+            font-size: 11px; /* 비율 조정: 기존 12px에서 축소 */
+            color: #7f8c8d; /* login.html 보조 텍스트 색상 */
+        }
+
+        .favorite-item .location-icon {
+            font-size: 16px; /* 비율 조정: 기존 18px에서 축소 */
+            color: #3498db; /* login.html 링크 색상 */
+        }
+
+        .favorite-item .star-icon {
+            font-size: 16px; /* 비율 조정: 기존 18px에서 축소 */
+            cursor: pointer; /* 클릭 가능하도록 */
+            color: #3498db; /* login.html 링크 색상 */
+        }
+    </style>
+</head>
+<body>
+    
+
+    <!-- 메인 콘텐츠 -->
+    <div class="content">
+        <!-- 상단 헤더 -->
+        <div class="header-container">
+            <div class="header">
+                <button class="back-btn" onclick="goToLocation()">←</button>
+                <div class="title">즐겨찾기 관리</div>
+                <div class="empty-space"></div>
+            </div>
+        </div>
+        <!-- 즐겨찾기 항목 리스트 -->
+        <div class="favorites-list">
+            <div class="favorite-item">
+                <div class="location">
+                    <span class="location-icon">📍</span>
+                    <div class="location-details">
+                        <span class="district">강남구 역삼동</span>
+                        <span class="city">서울시</span>
+                    </div>
+                </div>
+                <span class="star-icon">⭐</span>
+            </div>
+            <div class="favorite-item">
+                <div class="location">
+                    <span class="location-icon">📍</span>
+                    <div class="location-details">
+                        <span class="district">서초구 서초동</span>
+                        <span class="city">서울시</span>
+                    </div>
+                </div>
+                <span class="star-icon">⭐</span>
+            </div>
+            <div class="favorite-item">
+                <div class="location">
+                    <span class="location-icon">📍</span>
+                    <div class="location-details">
+                        <span class="district">송파구 잠실동</span>
+                        <span class="city">서울시</span>
+                    </div>
+                </div>
+                <span class="star-icon">⭐</span>
+            </div>
+            <div class="favorite-item">
+                <div class="location">
+                    <span class="location-icon">📍</span>
+                    <div class="location-details">
+                        <span class="district">마포구 연남동</span>
+                        <span class="city">서울시</span>
+                    </div>
+                </div>
+                <span class="star-icon">⭐</span>
+            </div>
+            <div class="favorite-item">
+                <div class="location">
+                    <span class="location-icon">📍</span>
+                    <div class="location-details">
+                        <span class="district">용산구 한남동</span>
+                        <span class="city">서울시</span>
+                    </div>
+                </div>
+                <span class="star-icon">⭐</span>
+            </div>
+            <div class="favorite-item">
+                <div class="location">
+                    <span class="location-icon">📍</span>
+                    <div class="location-details">
+                        <span class="district">종로구 삼청동</span>
+                        <span class="city">서울시</span>
+                    </div>
+                </div>
+                <span class="star-icon">⭐</span>
+            </div>
+            <div class="favorite-item">
+                <div class="location">
+                    <span class="location-icon">📍</span>
+                    <div class="location-details">
+                        <span class="district">중구 명동</span>
+                        <span class="city">서울시</span>
+                    </div>
+                </div>
+                <span class="star-icon">⭐</span>
+            </div>
+            <div class="favorite-item">
+                <div class="location">
+                    <span class="location-icon">📍</span>
+                    <div class="location-details">
+                        <span class="district">강서구 화곡동</span>
+                        <span class="city">서울시</span>
+                    </div>
+                </div>
+                <span class="star-icon">⭐</span>
+            </div>
+            <div class="favorite-item">
+                <div class="location">
+                    <span class="location-icon">📍</span>
+                    <div class="location-details">
+                        <span class="district">남구 대연동</span>
+                        <span class="city">부산시</span>
+                    </div>
+                </div>
+                <span class="star-icon">⭐</span>
+            </div>
+            <div class="favorite-item">
+                <div class="location">
+                    <span class="location-icon">📍</span>
+                    <div class="location-details">
+                        <span class="district">연제구 연산동</span>
+                        <span class="city">부산시</span>
+                    </div>
+                </div>
+                <span class="star-icon">⭐</span>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JavaScript 추가 -->
+    <script>
+        function goToLocation() {
+            window.location.href = "location.html";
+        }
+        // 별 아이콘 클릭 시 항목 삭제 기능
+        document.querySelectorAll('.star-icon').forEach(star => {
+            star.addEventListener('click', function() {
+                // 부모 요소인 .favorite-item을 찾아 제거
+                const favoriteItem = this.closest('.favorite-item');
+                favoriteItem.remove();
+            });
+        });
+    </script>
+</body>
+</html>
