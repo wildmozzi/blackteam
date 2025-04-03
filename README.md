@@ -6,15 +6,15 @@
 
 ex) D:\>git clone https://github.com/ajm445/blackteam.git
 
-cmd
+cmd : 클론 복제
 ```
 git clone https://github.com/ajm445/blackteam.git
 ```
-cmd
+cmd : 디렉토리 이동
 ```
 cd blackteam
 ```
-cmd
+cmd : vscode 실행
 ```
 code .
 ```
