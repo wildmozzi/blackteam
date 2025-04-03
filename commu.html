@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>메인페이지</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 390px;
+            height: 844px;
+            background-color: #fff;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #dfe6e9;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #2c3e50;
+            transition: color 0.3s ease;
+        }
+        .back-btn:hover {
+            color: #3498db;
+        }
+
+        .category-buttons {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background-color: #f5f7fa;
+            border-bottom: 1px solid #dfe6e9;
+        }
+
+        .category-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(135deg, #2c3e50, #4a6278);
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #34495e, #5a738c);
+        }
+
+        .list {
+            flex: 1;
+            list-style: none;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        .list-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #dfe6e9;
+            font-size: 16px;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .list-item:hover {
+            background-color: #ecf0f1;
+        }
+
+        .ad-item {
+            background-color: #fff5b0;
+        }
+
+        .ad-item:hover {
+            background-color: #ffeb99;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 20px;
+            background-color: #f9f9f9;
+            border-top: 1px solid #dfe6e9;
+        }
+
+        .nav-bar {
+            height: 60px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #fff;
+            border-top: 1px solid #eee;
+            position: relative;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #777;
+            font-size: 12px;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item:hover .nav-icon {
+            color: #333; /* 호버 시 색상 */
+        }
+
+        .nav-active .nav-icon {
+            color: #000; /* 활성 상태 색상 */
+        }
+
+        .nav-active {
+            color: #000;
+            position: relative;
+        }
+
+        .nav-active::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            height: 2px;
+            width: 30px;
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <button class="back-btn" onclick="goToHome()">←</button>
+            <h1>게시판 - 000</h1>
+            <span class="icon">🔔</span>
+        </header>
+        <div class="category-buttons">
+            <button class="category-btn">전체</button>
+            <button class="category-btn">후기</button>
+            <button class="category-btn">나눔</button>
+            <button class="category-btn">질문</button>
+        </div>
+        <ul class="list">
+            <li class="list-item ad-item" onclick="alert('광고를 클릭하셨습니다.')">광고: 특별 이벤트 진행 중!</li>
+            <li class="list-item" onclick="location.href='BoardContent.html'">게시글 1</li>
+            <li class="list-item">게시글 2</li>
+            <li class="list-item">게시글 3</li>
+            <li class="list-item">게시글 4</li>
+        </ul>
+        <div class="nav-bar">
+            <a href="home.html" class="nav-item">
+                <div class="nav-icon"><i class="fa-solid fa-house"></i></div>
+                <span>홈</span>
+            </a>
+            <a href="chat.html" class="nav-item">
+                <div class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <span>검색</span>
+            </a>
+            <a href="chat.html" class="nav-item">
+                <div class="nav-icon"><i class="fa-solid fa-comment"></i></div>
+                <span>채팅</span>
+            </a>
+            <a href="gaesi1.html" class="nav-item nav-active">
+                <div class="nav-icon"><i class="fa-solid fa-comments"></i></div>
+                <span>커뮤니티</span>
+            </a>
+            <div class="nav-item">
+                <div class="nav-icon"><i class="fa-solid fa-user"></i></div>
+                <span>프로필</span>
+            </div>
+    </div>
+    <script>
+        function goToHome() {
+            window.location.href = "home.html";
+        }
+    </script>
+</body>
+</html>

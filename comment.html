@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>게시글 페이지</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 390px;
+            height: 844px;
+            background-color: #fff;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #dfe6e9;
+        }
+
+        .navbar a {
+            font-size: 20px;
+            color: #2c3e50;
+            text-decoration: none;
+            margin-right: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            color: #3498db;
+        }
+
+        .navbar .title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+
+        .meta-info {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+
+        .post-image {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .post-text {
+            line-height: 1.6;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .likes {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .like-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #2c3e50, #4a6278);
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-right: 10px;
+        }
+
+        .like-btn:hover {
+            background: linear-gradient(135deg, #34495e, #5a738c);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .comments .comment {
+            background-color: #ecf0f1;
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+
+        .comment strong {
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        .comment p {
+            color: #2c3e50;
+            margin-top: 5px;
+        }
+
+        .comment-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #2c3e50, #4a6278);
+            color: white;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 15px;
+        }
+
+        .comment-btn:hover {
+            background: linear-gradient(135deg, #34495e, #5a738c);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="navbar">
+            <a href="javascript:history.back()" aria-label="뒤로 가기">&lt;</a>
+            <span class="title">오늘 제주도 다녀왔어요</span>
+        </nav>
+        <main class="content">
+            <div class="meta-info">
+                2025-03-28 | 조회 수: 123 | 댓글 수: 5
+            </div>
+            <img src="https://via.placeholder.com/400x300" alt="제주도 여행 사진" class="post-image">
+            <p class="post-text">
+                오늘 제주도에 다녀왔어요! 바다와 산의 풍경이 정말 아름다웠어요. 맛있는 음식도 많이 먹었고, 기념품도 샀답니다. 정말 좋은 여행이었어요!
+            </p>
+            <div class="likes">
+                <button class="like-btn" aria-label="좋아요 버튼">👍 좋아요</button>
+                <span>123</span>
+            </div>
+            <section class="comments">
+                <article class="comment">
+                    <strong>홍길동</strong> (2025-03-28 14:30)
+                    <p>제주도 너무 좋아요! 저도 가고 싶네요.</p>
+                </article>
+                <article class="comment">
+                    <strong>김철수</strong> (2025-03-28 15:00)
+                    <p>사진 너무 예쁘네요! 다음엔 저도 같이 가고 싶어요.</p>
+                </article>
+            </section>
+            <button class="comment-btn">댓글 작성하기</button>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>위치검색</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 상단 헤더 컨테이너 */
+        .header-container {
+            background-color: #ffffff; /* 흰색 배경 */
+            border-radius: 15px; /* login.html과 동일 */
+            width: 100%; 
+            max-width: 400px; /* login.html과 동일 */
+            padding: 10px 15px; /* 내부 패딩 */
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #2c3e50;
+            transition: color 0.3s ease;
+        }
+        .back-btn:hover {
+            color: #3498db;
+        }
+
+
+        .header .title {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700; /* login.html과 동일 */
+            color: #2c3e50; /* login.html 텍스트 색상 */
+        }
+
+        .header .empty-space {
+            width: 24px; /* 뒤로가기 버튼과 대칭을 맞추기 위한 빈 공간 */
+        }
+
+        /* 메인 콘텐츠 */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 25px; /* 비율 조정: 기존 30px에서 25px로 축소 */
+            background-color: #ffffff; /* login.html과 동일 */
+            border-radius: 15px; /* login.html과 동일 */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* login.html과 동일 */
+            width: 90%; /* login.html과 동일 */
+            max-width: 400px; /* login.html과 동일 */
+            margin: 15px auto; /* 비율 조정: 기존 20px에서 15px로 축소 */
+            gap: 0; /* 검색 창과 지도 간격을 직접 제어 */
+        }
+
+        /* 즐겨찾기 관리 버튼 */
+        .manage-favorites-btn-container {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end; /* 오른쪽 정렬 */
+            margin-bottom: 12px; /* 비율 조정: 기존 15px에서 12px로 축소 */
+        }
+
+        .manage-favorites-btn {
+            background: linear-gradient(135deg, #2c3e50, #4a6278); /* login.html 버튼 스타일 */
+            padding: 6px 10px; /* 비율 조정: 기존 8px 12px에서 축소 */
+            font-size: 12px; /* 비율 조정: 기존 13px에서 축소 */
+            border-radius: 8px; /* login.html과 동일 */
+            cursor: pointer;
+            text-decoration: none; /* 링크 밑줄 제거 */
+            color: #fff; /* 흰색으로 대비 */
+            transition: all 0.3s ease; /* login.html과 동일 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* login.html과 동일 */
+        }
+
+        .manage-favorites-btn:hover {
+            background: linear-gradient(135deg, #34495e, #5a738c); /* login.html 버튼 호버 */
+            transform: translateY(-2px); /* login.html과 동일 */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* login.html과 동일 */
+        }
+
+        /* 검색과 검색결과를 묶는 컨테이너 */
+        .search-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0; /* 검색과 검색결과 사이 간격 제거 */
+            margin-bottom: 12px; /* 비율 조정: 기존 15px에서 12px로 축소 */
+        }
+
+        .section {
+            width: 100%;
+            text-align: center;
+            font-size: 14px; /* 비율 조정: 기존 16px에서 축소 */
+            font-weight: 500; /* login.html 버튼 텍스트 스타일 참고 */
+            border-radius: 8px; /* login.html과 동일 */
+        }
+
+        .search {
+            padding: 10px 0; /* 비율 조정: 기존 12.5px에서 축소 */
+            background-color: #f8f9fa; /* login.html 구글 버튼 호버 색상 참고 */
+            color: #2c3e50; /* login.html 텍스트 색상 */
+            border: 1px solid #dfe6e9; /* login.html 입력 필드 테두리 */
+            border-radius: 8px; /* login.html과 동일 */
+            cursor: pointer; /* 클릭 가능하도록 커서 변경 */
+            transition: all 0.3s ease; /* login.html과 동일 */
+        }
+
+        .search:hover {
+            background-color: #dfe6e9; /* login.html 입력 필드 테두리 색상 참고 */
+            transform: translateY(-2px); /* login.html 버튼 호버 효과 */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* login.html 버튼 호버 효과 */
+        }
+
+        /* 검색 결과 세분화 */
+        .search-results {
+            width: 100%;
+            display: none; /* 기본적으로 숨김 */
+            flex-direction: column;
+            gap: 0; /* 섹션 간 간격 제거 */
+            max-height: 120px; /* 비율 조정: 기존 150px에서 축소 (항목당 약 30px) */
+            overflow-y: auto; /* 스크롤 바 생성 */
+            transition: all 0.3s ease; /* 부드러운 전환 효과 */
+        }
+
+        /* 스크롤바 커스터마이징 */
+        .search-results::-webkit-scrollbar {
+            width: 6px; /* 기존 스타일 유지 */
+        }
+
+        .search-results::-webkit-scrollbar-track {
+            background: #dfe6e9; /* login.html 입력 필드 테두리 색상 */
+            border-radius: 10px; /* 기존 스타일 유지 */
+        }
+
+        .search-results::-webkit-scrollbar-thumb {
+            background: #2c3e50; /* login.html 버튼 색상 */
+            border-radius: 10px; /* 기존 스타일 유지 */
+        }
+
+        .search-results::-webkit-scrollbar-thumb:hover {
+            background: #34495e; /* login.html 버튼 호버 색상 */
+        }
+
+        /* 검색 결과가 표시될 때 */
+        .search-results.active {
+            display: flex; /* 표시 */
+        }
+
+        .favorites,
+        .search-result {
+            padding: 10px 12px; /* 비율 조정: 기존 12.5px 15px에서 축소 */
+            background-color: #f8f9fa; /* login.html 구글 버튼 호버 색상 참고 */
+            border: 1px solid #dfe6e9; /* login.html 입력 필드 테두리 */
+            border-bottom: none; /* 연속된 항목 간 구분을 위해 하단 테두리 제거 */
+            text-align: left; /* 왼쪽 정렬 */
+            color: #2c3e50; /* login.html 텍스트 색상 */
+            display: flex; /* 별 아이콘과 텍스트를 가로로 배치 */
+            justify-content: space-between; /* 왼쪽과 오른쪽 정렬 */
+            align-items: center; /* 세로 가운데 정렬 */
+        }
+
+        /* 첫 번째 검색 결과 항목 스타일 */
+        .search-results .favorites {
+            border-top: 1px solid #dfe6e9; /* 첫 번째 항목에 상단 테두리 추가 */
+            border-radius: 8px 8px 0 0; /* 상단 모서리 둥글게 */
+        }
+
+        /* 마지막 검색 결과 항목 스타일 */
+        .search-results .search-result:last-child {
+            border-bottom: 1px solid #dfe6e9; /* 마지막 항목에 하단 테두리 추가 */
+            border-radius: 0 0 8px 8px; /* 하단 모서리 둥글게 */
+        }
+
+        .favorites .star-icon,
+        .search-result .star-icon {
+            font-size: 16px; /* 비율 조정: 기존 18px에서 축소 */
+            cursor: pointer; /* 클릭 가능하도록 */
+            color: #3498db; /* login.html 링크 색상 */
+        }
+
+        .map {
+            width: 100%;
+            background-color: #f8f9fa; /* login.html 구글 버튼 호버 색상 참고 */
+            padding: 80px 0; /* 비율 조정: 기존 100px에서 축소 */
+            text-align: center;
+            font-size: 14px; /* 비율 조정: 기존 16px에서 축소 */
+            border-radius: 8px; /* login.html과 동일 */
+            color: #2c3e50; /* login.html 텍스트 색상 */
+            border: 1px solid #dfe6e9; /* login.html 입력 필드 테두리 */
+        }
+
+        /* 등록 버튼 */
+        .register-btn {
+            width: 50%; /* 너비를 절반으로 */
+            max-width: 120px; /* 비율 조정: 기존 150px에서 축소 */
+            background: linear-gradient(135deg, #2c3e50, #4a6278); /* login.html 버튼 스타일 */
+            padding: 8px 0; /* 비율 조정: 기존 10px에서 축소 */
+            text-align: center;
+            font-size: 14px; /* 비율 조정: 기존 15px에서 축소 */
+            font-weight: 500; /* login.html 버튼 텍스트 가중치 */
+            border-radius: 8px; /* login.html과 동일 */
+            cursor: pointer;
+            margin: 12px auto 0; /* 비율 조정: 기존 15px에서 축소 */
+            color: #fff; /* 텍스트 색상 */
+            transition: all 0.3s ease; /* login.html과 동일 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* login.html과 동일 */
+        }
+
+        .register-btn:hover {
+            background: linear-gradient(135deg, #34495e, #5a738c); /* login.html 버튼 호버 */
+            transform: translateY(-2px); /* login.html과 동일 */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* login.html과 동일 */
+        }
+    </style>
+</head>
+<body>
+    
+
+    <!-- 메인 콘텐츠 -->
+    <div class="content">
+            <!-- 상단 헤더 -->
+        <div class="header-container">
+            <div class="header">
+                <button class="back-btn" onclick="goToHome()">←</button>
+                <div class="title">검색</div>
+                <div class="empty-space"></div>
+            </div>
+        </div>
+        <!-- 즐겨찾기 관리 버튼 -->
+        <div class="manage-favorites-btn-container">
+            <a href="favorites.html" class="manage-favorites-btn">즐겨찾기 관리</a>
+        </div>
+        <!-- 검색과 검색결과 묶음 -->
+        <div class="search-container">
+            <div class="section search">검색</div>
+            <!-- 검색 결과 세분화 -->
+            <div class="search-results">
+                <div class="favorites">
+                    즐겨찾는 위치
+                    <span class="star-icon">⭐</span>
+                </div>
+                <div class="search-result">
+                    검색결과 1
+                    <span class="star-icon">☆</span>
+                </div>
+                <div class="search-result">
+                    검색결과 2
+                    <span class="star-icon">☆</span>
+                </div>
+                <div class="search-result">
+                    검색결과 3
+                    <span class="star-icon">☆</span>
+                </div>
+                <div class="search-result">
+                    검색결과 4
+                    <span class="star-icon">☆</span>
+                </div>
+            </div>
+        </div>
+        <!-- 지도 -->
+        <div class="map">지도</div>
+        <!-- 등록 버튼 -->
+        <div class="register-btn">등록</div>
+    </div>
+
+
+    <!-- JavaScript 추가 -->
+    <script>
+        function goToHome() {
+            window.location.href = "home.html";
+        }
+        // 검색 창 클릭 시 검색 결과 토글
+        const searchBar = document.querySelector('.search');
+        const searchResults = document.querySelector('.search-results');
+
+        searchBar.addEventListener('click', function() {
+            searchResults.classList.toggle('active');
+        });
+
+        // 별 아이콘 토글 기능
+        document.querySelectorAll('.star-icon').forEach(star => {
+            star.addEventListener('click', function() {
+                if (this.textContent === '⭐') {
+                    this.textContent = '☆';
+                } else {
+                    this.textContent = '⭐';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
