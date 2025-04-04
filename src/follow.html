@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>팔로우 관리</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 390px;
+            height: 844px;
+            background-color: white;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background-color: #2c3e50;
+            color: #FFFFFF;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: 700;
+            position: fixed;
+            top: 0;
+            width: 390px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #dfe6e9;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #FFFFFF;
+            transition: color 0.3s ease;
+        }
+
+        .back-button:hover {
+            color: #3498db;
+        }
+
+        .header-title {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .profile-section {
+            background-color: #fff;
+            margin: 120px 20px 10px;
+            padding: 15px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-image {
+            width: 40px;
+            height: 40px;
+            background-color: #dfe6e9;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #dfe6e9;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+        }
+
+        .profile-info h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 20px;
+            padding: 10px 0;
+            background-color: #f5f7fa;
+            position: sticky;
+            top: 60px;
+            z-index: 900;
+        }
+
+        .button-group.fixed {
+            position: fixed;
+            top: 60px;
+            width: 390px;
+            margin: 0;
+            padding: 10px 20px;
+        }
+
+        .button {
+            width: 48%;
+            padding: 10px;
+            text-align: center;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            background: linear-gradient(135deg, #5d788c, #7a95a8);
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .button.active {
+            background: linear-gradient(135deg, #2c3e50, #4a6278);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #34495e, #5a738c);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .item-list {
+            flex: 1;
+            margin: 0 20px;
+            padding-top: 0; /* 상단 패딩 제거 */
+            overflow-y: auto;
+            background-color: #f5f7fa;
+            padding-bottom: 60px;
+        }
+
+        .item {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .item:first-child {
+            margin-top: 0; /* 첫 번째 아이템의 상단 여백 제거 */
+        }
+
+        .item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .item-image {
+            width: 30px;
+            height: 30px;
+            background-color: #dfe6e9;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .item-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-info h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .item-info p {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .item-row {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .action-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            border-radius: 8px;
+            padding: 5px 10px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cancel-button {
+            background: linear-gradient(135deg, #dc3545, #ff5765);
+            color: #FFFFFF;
+        }
+
+        .cancel-button:hover {
+            background: linear-gradient(135deg, #c82333, #e84351);
+        }
+
+        .follow-button {
+            background: linear-gradient(135deg, #2c3e50, #4a6278);
+            color: #FFFFFF;
+        }
+
+        .follow-button:hover {
+            background: linear-gradient(135deg, #34495e, #5a738c);
+        }
+
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            width: 390px;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #dfe6e9;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.nav-active {
+            color: #2c3e50;
+        }
+
+        .nav-item:hover {
+            color: #34495e;
+            transform: scale(1.1);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-button" onclick="goBack()">←</button>
+            <div class="header-title">팔로우 관리</div>
+            <div style="width: 20px;"></div>
+        </div>
+
+        <div class="profile-section" id="profileSection">
+            <div class="profile-image"></div>
+            <div class="profile-info">
+                <h2>닉네임</h2>
+                <p>한줄소개</p>
+            </div>
+        </div>
+
+        <div class="button-group" id="buttonGroup">
+            <button class="button active" id="followingBtn" onclick="showFollowingList()">팔로잉<br>26명</button>
+            <button class="button" id="followerBtn" onclick="showFollowerList()">팔로워<br>35명</button>
+        </div>
+
+        <div class="item-list" id="itemList">
+            <!-- JavaScript로 동적으로 아이템이 추가될 예정 -->
+        </div>
+
+        <div class="nav-bar">
+            <div class="nav-item nav-active">
+                <div class="nav-icon"><i class="fa-solid fa-house"></i></div>
+                <span>홈</span>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <span>검색</span>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"><i class="fa-solid fa-comment"></i></div>
+                <span>채팅</span>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"><i class="fa-solid fa-comments"></i></div>
+                <span>커뮤니티</span>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"><i class="fa-solid fa-user"></i></div>
+                <span>프로필</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            history.back();
+        }
+
+        function goToProfile(id) {
+            alert(`프로필로 이동: 사용자 ID ${id}`);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            showFollowingList();
+            handleScroll();
+        });
+
+        function updateButtonCounts() {
+            const followingCount = 26;
+            const followerCount = 35;
+            const followingBtn = document.getElementById("followingBtn");
+            const followerBtn = document.getElementById("followerBtn");
+
+            followingBtn.innerHTML = `팔로잉<br>${followingCount}명`;
+            followerBtn.innerHTML = `팔로워<br>${followerCount}명`;
+        }
+
+        function showFollowingList() {
+            document.querySelectorAll(".button")[0].classList.add("active");
+            document.querySelectorAll(".button")[1].classList.remove("active");
+
+            const itemList = document.getElementById("itemList");
+            itemList.innerHTML = "";
+
+            for (let i = 1; i <= 26; i++) {
+                const item = document.createElement("button");
+                item.className = "item";
+                item.onclick = () => goToProfile(`following-${i}`);
+                item.innerHTML = `
+                    <div class="item-row">
+                        <div class="item-image"></div>
+                        <div class="item-info">
+                            <h3>팔로잉-닉네임-${i}</h3>
+                            <p>매너점수</p>
+                            <p>팔로워 수</p>
+                        </div>
+                        <button class="action-button cancel-button" onclick="event.stopPropagation()">취소</button>
+                    </div>
+                `;
+
+                const actionButton = item.querySelector(".action-button");
+                actionButton.addEventListener("click", function(event) {
+                    event.stopPropagation();
+                    if (actionButton.classList.contains("cancel-button")) {
+                        actionButton.classList.remove("cancel-button");
+                        actionButton.classList.add("follow-button");
+                        actionButton.textContent = "다시 팔로우";
+                    } else {
+                        actionButton.classList.remove("follow-button");
+                        actionButton.classList.add("cancel-button");
+                        actionButton.textContent = "취소";
+                    }
+                });
+
+                itemList.appendChild(item);
+            }
+
+            updateButtonCounts();
+            adjustItemListPosition(); // 목록 위치 조정
+        }
+
+        function showFollowerList() {
+            document.querySelectorAll(".button")[1].classList.add("active");
+            document.querySelectorAll(".button")[0].classList.remove("active");
+
+            const itemList = document.getElementById("itemList");
+            itemList.innerHTML = "";
+
+            for (let i = 1; i <= 35; i++) {
+                const item = document.createElement("button");
+                item.className = "item";
+                item.onclick = () => goToProfile(`follower-${i}`);
+                item.innerHTML = `
+                    <div class="item-row">
+                        <div class="item-image"></div>
+                        <div class="item-info">
+                            <h3>팔로워-닉네임-${i}</h3>
+                            <p>매너점수</p>
+                            <p>팔로워 수</p>
+                        </div>
+                    </div>
+                `;
+                itemList.appendChild(item);
+            }
+
+            updateButtonCounts();
+            adjustItemListPosition(); // 목록 위치 조정
+        }
+
+        let lastScrollTop = 0;
+        const profileSection = document.getElementById("profileSection");
+        const buttonGroup = document.getElementById("buttonGroup");
+        const itemList = document.getElementById("itemList");
+        const profileHeight = profileSection.offsetHeight + 20;
+        const buttonGroupHeight = buttonGroup.offsetHeight;
+        let buttonGroupTop = profileSection.offsetHeight + 120;
+
+        const placeholder = document.createElement("div");
+        placeholder.style.height = `${buttonGroupHeight}px`;
+        placeholder.style.display = "none";
+        buttonGroup.parentNode.insertBefore(placeholder, buttonGroup);
+
+        function adjustItemListPosition() {
+            if (buttonGroup.classList.contains("fixed")) {
+                itemList.style.marginTop = `${buttonGroupHeight}px`; // 버튼 그룹 높이만큼 상단 여백 추가
+            } else {
+                itemList.style.marginTop = "0"; // 고정되지 않을 때는 여백 제거
+            }
+        }
+
+        function handleScroll() {
+            const scrollTop = itemList.scrollTop;
+            const scrollingDown = scrollTop > lastScrollTop;
+
+            if (scrollingDown) {
+                const translateY = Math.min(scrollTop, profileHeight);
+                profileSection.style.transform = `translateY(-${translateY}px)`;
+            } else {
+                const translateY = Math.max(scrollTop, 0);
+                profileSection.style.transform = `translateY(-${translateY}px)`;
+            }
+
+            if (scrollTop >= buttonGroupTop - 60) {
+                buttonGroup.classList.add("fixed");
+                placeholder.style.display = "block";
+                itemList.style.marginTop = `${buttonGroupHeight}px`; // 버튼 아래에서 목록 시작
+            } else {
+                buttonGroup.classList.remove("fixed");
+                placeholder.style.display = "none";
+                itemList.style.marginTop = "0"; // 기본 상태로 복귀
+            }
+
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }
+
+        itemList.addEventListener("scroll", handleScroll);
+    </script>
+</body>
+</html>
